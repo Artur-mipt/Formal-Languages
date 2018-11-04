@@ -1,12 +1,9 @@
+# -*- coding: utf-8 -*-
 
 
 # в случае сложения или конкатенация нам надо выкинуть последние два
 # элемента из всех стэков и запомнить их значения
 def pop_2_elements(count_x, pref_x, suff_x, only_x):
-    if len(count_x) < 2:
-        print("Re is incorrect")
-        exit(0)
-
     c2 = count_x.pop()
     c1 = count_x.pop()
     p2 = pref_x.pop()
@@ -42,28 +39,21 @@ def plus(count_x, pref_x, suff_x, only_x):
 
 def concat(count_x, pref_x, suff_x, only_x):
     info = pop_2_elements(count_x, pref_x, suff_x, only_x)
-    count_x.append(max(max(info[0], info[1]), info[4] + info[2]))
+    count_x.append(max(max(info[0], info[1]), info[3] + info[4]))
     pref_x.append(info[2])
     suff_x.append(info[5])
     only_x.append(info[6] and info[7])
 
 
 def star(count_x, pref_x, suff_x, only_x):
-    if only_x[len(only_x) - 1] is True:
-        print("INF")
-        exit(0)
-
     info = count_x.pop()
     count_x.append(max(info, suff_x[len(suff_x) - 1] + pref_x[len(pref_x) - 1]))
 
 
-def main():
-    re = input()
-    x = input()
+def get_answer(re, x):
 
     if not 'a' <= x <= 'c':
-        print("Symbol x is incorrect")
-        exit(0)
+        return "Error"
 
     count_x = []  # max k : x^k является подстрокой слов, задаваемых регуляркой
     pref_x = []   # max k: x^k является префиксом слов, задаваемых регуляркой
@@ -77,20 +67,33 @@ def main():
             if 'a' <= c <= 'c':  # если символ - буква, но не x
                 just_letter(count_x, pref_x, suff_x, only_x)
             elif c == '+':  # если символ - операция "или"
+                if len(count_x) < 2:
+                    return "Error"
                 plus(count_x, pref_x, suff_x, only_x)
             elif c == '.':  # если символ - операция конкатенации
+                if len(count_x) < 2:
+                    return "Error"
                 concat(count_x, pref_x, suff_x, only_x)
             elif c == '*':  # если символ - звезда Клини
+                if len(count_x) < 1:
+                    return "Error"
+                if only_x[len(only_x) - 1] is True:
+                    return "INF"
                 star(count_x, pref_x, suff_x, only_x)
             else:  # если символ неккоректен
-                print("Re is incorrect")
-                exit(0)
+                return "Error"
 
     if len(count_x) > 1:  # если на стэке осталось более 1 элемента
-        print("Re is incorrect")
-        exit(0)
+        return "Error"
 
-    print(count_x[0])
+    return count_x[0]
+
+
+def main():
+    re = input()
+    x = input()
+
+    print(get_answer(re, x))
 
 
 main()
