@@ -47,12 +47,45 @@ def number_test():
         flag = False
     if get_answer('aba..*', 'a') != 2:
         flag = False
+    if get_answer('baa..ab.*aab....', 'a') != 4:
+        flag = False
 
     if flag:
         return "number_test passed"
     return "number_test failed"
 
 
+# тест на регулярки с пустым словом
+def empty_word_test():
+    flag = True
+
+    if get_answer('a1a..', 'a') != 2:
+        flag = False
+    if get_answer('aa1..', 'a') != 2:
+        flag = False
+    if get_answer('a1+', 'a') != 1:
+        flag = False
+    if get_answer('1a+', 'a') != 1:
+        flag = False
+    if get_answer('11+', 'a') != 0:
+        flag = False
+    if get_answer('abc1...ab.+', 'c') != 1:
+        flag = False
+    if get_answer('abc..ab1..+', 'a') != 1:
+        flag = False
+    if get_answer('abc..ab.+1+*', 'a') != 1:
+        flag = False
+    if get_answer('ab.1+*', 'a') != 1:
+        flag = False
+    if get_answer('aa.1+*', 'a') != 'INF':
+        flag = False
+
+    if flag:
+        return "empty_word_test passed"
+    return "empty_word_test failed"
+
+
 print(error_test())
 print(inf_test())
 print(number_test())
+print(empty_word_test())
