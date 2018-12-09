@@ -7,5 +7,5 @@ class Situation:
     def __init__(self, str_out, str_to, int_i, int_point):
         self.out = str_out
         self.to = str_to
-        self.i = int_i
+        self.ind = int_i
         self.point = int_point

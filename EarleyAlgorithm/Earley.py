@@ -26,7 +26,7 @@ class Earley:
         is_already_added = False
         for sit in self.situations_dict[list_number]:
             if (sit.to == situation.to and sit.out == situation.out
-                    and sit.point == situation.point and sit.i == situation.i):
+                    and sit.point == situation.point and sit.ind == situation.ind):
                 is_already_added = True
         if not is_already_added:
             self.situations_dict[list_number].add(situation)
@@ -49,17 +49,17 @@ class Earley:
     def scan(self, list_number, symbol):
         for situation in self.situations_dict[list_number]:
             if situation.to[situation.point] == symbol:
-                sit = Situation(situation.out, situation.to, situation.i, situation.point + 1)
+                sit = Situation(situation.out, situation.to, situation.ind, situation.point + 1)
                 self.add_situation(sit, list_number + 1)
 
     # функция Complete
     def complete(self, list_number):
         situations_to_insert = []
         for situation in self.situations_dict[list_number]:
-            list_number_2 = situation.i
+            list_number_2 = situation.ind
             if situation.point == len(situation.to):
                 for situation_2 in self.situations_dict[list_number_2]:
-                    sit = Situation(situation_2.out, situation_2.to, situation_2.i, situation_2.point + 1)
+                    sit = Situation(situation_2.out, situation_2.to, situation_2.ind, situation_2.point + 1)
                     situations_to_insert.append(sit)
 
         for sit in situations_to_insert:
@@ -90,7 +90,7 @@ class Earley:
                 new_len = len(self.situations_dict[i])
 
         for situation in self.situations_dict[len(self.word)]:
-            if situation.out == 'S#' and situation.to == 'S' and situation.i == 0 and situation.point == 1:
+            if situation.out == 'S#' and situation.to == 'S' and situation.ind == 0 and situation.point == 1:
                 return 'YES'
 
         return 'NO'
