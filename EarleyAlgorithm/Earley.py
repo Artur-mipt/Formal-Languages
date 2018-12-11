@@ -25,7 +25,7 @@ class Earley:
     def add_situation(self, situation, list_number):
         is_already_added = False
         for sit in self.situations_dict[list_number]:
-            if (sit.to == situation.to and sit.out == situation.out
+            if (sit.output == situation.output and sit.input == situation.input
                     and sit.point == situation.point and sit.ind == situation.ind):
                 is_already_added = True
         if not is_already_added:
@@ -35,11 +35,11 @@ class Earley:
     def predict(self, list_number):
         situations_to_insert = []
         for situation in self.situations_dict[list_number]:
-            if situation.point < len(situation.to):
-                unterminal = situation.to[situation.point]  # смотрим нетерминальный символ после точки
+            if situation.point < len(situation.output):
+                unterminal = situation.output[situation.point]  # смотрим нетерминальный символ после точки
                 for rule in self.rules:
-                    if rule.out == unterminal:  # что выводится из этого нетерминала
-                        sit = Situation(unterminal, rule.to, list_number, 0)
+                    if rule.input == unterminal:  # что выводится из этого нетерминала
+                        sit = Situation(unterminal, rule.output, list_number, 0)
                         situations_to_insert.append(sit)
 
         for sit in situations_to_insert:
@@ -48,8 +48,8 @@ class Earley:
     # функция Scan
     def scan(self, list_number, symbol):
         for situation in self.situations_dict[list_number]:
-            if situation.to[situation.point] == symbol:
-                sit = Situation(situation.out, situation.to, situation.ind, situation.point + 1)
+            if situation.output[situation.point] == symbol:
+                sit = Situation(situation.input, situation.output, situation.ind, situation.point + 1)
                 self.add_situation(sit, list_number + 1)
 
     # функция Complete
@@ -57,9 +57,9 @@ class Earley:
         situations_to_insert = []
         for situation in self.situations_dict[list_number]:
             list_number_2 = situation.ind
-            if situation.point == len(situation.to):
+            if situation.point == len(situation.output):
                 for situation_2 in self.situations_dict[list_number_2]:
-                    sit = Situation(situation_2.out, situation_2.to, situation_2.ind, situation_2.point + 1)
+                    sit = Situation(situation_2.input, situation_2.output, situation_2.ind, situation_2.point + 1)
                     situations_to_insert.append(sit)
 
         for sit in situations_to_insert:
@@ -90,7 +90,7 @@ class Earley:
                 new_len = len(self.situations_dict[i])
 
         for situation in self.situations_dict[len(self.word)]:
-            if situation.out == 'S#' and situation.to == 'S' and situation.ind == 0 and situation.point == 1:
+            if situation.input == 'S#' and situation.output == 'S' and situation.ind == 0 and situation.point == 1:
                 return 'YES'
 
         return 'NO'

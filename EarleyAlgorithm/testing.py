@@ -13,7 +13,7 @@ def predict_test():
     is_added = False
     to_add = Situation('S', 'a', 0, 0)
     for sit in earley.situations_dict[0]:
-        if (sit.out == to_add.out and sit.to == to_add.to
+        if (sit.input == to_add.input and sit.output == to_add.output
                 and sit.point == to_add.point and sit.ind == to_add.ind):
             is_added = True
 
@@ -33,7 +33,7 @@ def scan_test():
     is_added = False
     to_add = Situation('S', 'a', 0, 1)
     for sit in earley.situations_dict[1]:
-        if (sit.out == to_add.out and sit.to == to_add.to
+        if (sit.input == to_add.input and sit.output == to_add.output
                 and sit.point == to_add.point and sit.ind == to_add.ind):
             is_added = True
 
@@ -54,7 +54,7 @@ def complete_test():
     is_added = False
     to_add = Situation('S#', 'S', 0, 1)
     for sit in earley.situations_dict[1]:
-        if (sit.out == to_add.out and sit.to == to_add.to
+        if (sit.input == to_add.input and sit.output == to_add.output
                 and sit.point == to_add.point and sit.ind == to_add.ind):
             is_added = True
 
